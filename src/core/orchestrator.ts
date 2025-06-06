@@ -42,10 +42,12 @@ export class Orchestrator {
     context: Record<string, any> = {}
   ): Promise<AgentResult> {
     console.log(`[Orchestrator] Received prompt: ${prompt.substring(0, 100)}${prompt.length > 100 ? '...' : ''}`);
-    
+
+    const safePrompt = this.validatePrompt(prompt);
+
     return new Promise((resolve, reject) => {
       // Add to queue
-      this.taskQueue.push({ task: prompt, context, resolve, reject });
+      this.taskQueue.push({ task: safePrompt, context, resolve, reject });
       
       // Start processing if not already
       if (!this.isProcessing) {
@@ -100,6 +102,30 @@ export class Orchestrator {
       // Process next task in queue
       this.processQueue();
     }
+  }
+
+  /**
+   * Sanitize the user provided prompt by stripping or escaping suspicious patterns
+   */
+  private sanitizePrompt(prompt: string): string {
+    let sanitized = prompt.replace(/<script.*?>.*?<\/script>/gi, '');
+    sanitized = sanitized.replace(/[;&|`]/g, ' ');
+    sanitized = sanitized.replace(/\s+/g, ' ').trim();
+    return sanitized;
+  }
+
+  /**
+   * Validate the prompt before it is processed by the agents
+   */
+  private validatePrompt(prompt: string): string {
+    const sanitized = this.sanitizePrompt(prompt);
+    if (sanitized.length === 0) {
+      throw new Error('Prompt is empty or invalid after sanitization');
+    }
+    if (sanitized !== prompt) {
+      console.warn('[Orchestrator] Suspicious patterns were sanitized in prompt');
+    }
+    return sanitized;
   }
 
   /**
