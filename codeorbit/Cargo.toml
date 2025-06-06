@@ -38,6 +38,8 @@ config = "0.13"
 log = "0.4"
 env_logger = "0.10"
 
+[workspace]
+
 [dev-dependencies]
 # Test dependencies go here
 
