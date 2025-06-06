@@ -1,5 +1,5 @@
 //! CodeOrbit - AI-Powered Development Assistant for Zed
-//! 
+//!
 //! This crate provides AI-powered development assistance within the Zed editor,
 //! featuring a multi-agent system for handling various development tasks.
 
@@ -7,13 +7,14 @@
 #![warn(rustdoc::missing_crate_level_docs)]
 
 use std::sync::Arc;
-use zed::{
-    AppContext, Command, Context, Global, View, ViewContext, WindowContext, WindowHandle,
-};
+use zed::{AppContext, Command, Context, Global, View, ViewContext, WindowContext, WindowHandle};
 
-mod core;
-mod ui;
+#[path = "../agents/mod.rs"]
 mod agents;
+#[path = "../core/mod.rs"]
+mod core;
+#[path = "../ui/mod.rs"]
+mod ui;
 
 use crate::core::Orchestrator;
 use crate::ui::PromptPanel;
@@ -53,11 +54,7 @@ impl Global for CodeOrbit {
 
 impl CodeOrbit {
     /// Toggles the visibility of the CodeOrbit panel.
-    pub fn toggle_panel(
-        &mut self,
-        _: &Command,
-        cx: &mut ViewContext<Self>,
-    ) {
+    pub fn toggle_panel(&mut self, _: &Command, cx: &mut ViewContext<Self>) {
         if self.panel.is_none() {
             let orchestrator = self.orchestrator.clone();
             let panel = cx.new_view(move |_cx| PromptPanel::new(orchestrator));
@@ -73,10 +70,10 @@ impl CodeOrbit {
 pub fn init(_: &zed::AppContext) {
     // Initialize logging
     env_logger::init();
-    
+
     // Register commands
     zed::register_global(CodeOrbit::new);
-    
+
     zed::register_action("toggle_codeorbit_panel", |_cx| {
         Box::new(|cx: &mut WindowContext| {
             if let Some(global) = cx.global::<CodeOrbit>() {
@@ -86,7 +83,7 @@ pub fn init(_: &zed::AppContext) {
             }
         })
     });
-    
+
     log::info!("CodeOrbit extension initialized");
 }
 
@@ -94,7 +91,7 @@ pub fn init(_: &zed::AppContext) {
 #[cfg(test)]
 mod tests {
     use super::*;
-    
+
     #[test]
     fn test_extension_initialization() {
         // This is a simple test to verify the extension can be initialized

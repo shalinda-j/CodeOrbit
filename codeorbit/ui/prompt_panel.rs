@@ -1,11 +1,11 @@
 //! The main prompt panel for the CodeOrbit extension.
-//! 
+//!
 //! This module implements the UI for the CodeOrbit prompt panel where users
 //! can interact with the AI assistant.
 
-use gpui::*;
-use crate::core::Result;
 use crate::core::Orchestrator;
+use crate::core::Result;
+use gpui::*;
 use std::sync::Arc;
 use tokio::sync::Mutex;
 
@@ -52,7 +52,10 @@ impl PromptPanel {
 
     /// Sends the current prompt to the orchestrator and updates the output.
     pub fn submit(&mut self, cx: &mut Context<Self>) {
-        let prompt = self.input.trim().replace(|c: char| !c.is_ascii() || c == '<' || c == '>' , "");
+        let prompt = self
+            .input
+            .trim()
+            .replace(|c: char| !c.is_ascii() || c == '<' || c == '>', "");
         if prompt.is_empty() {
             return;
         }
@@ -63,23 +66,28 @@ impl PromptPanel {
             match orchestrator.lock().await.handle_user_prompt(&prompt).await {
                 Ok(resp) => {
                     if let Ok(panel) = handle.upgrade(cx) {
-                        panel.update(cx, |panel, cx| {
-                            panel.update_output(&resp);
-                            cx.notify();
-                        }).ok();
+                        panel
+                            .update(cx, |panel, cx| {
+                                panel.update_output(&resp);
+                                cx.notify();
+                            })
+                            .ok();
                     }
                 }
                 Err(e) => {
                     if let Ok(panel) = handle.upgrade(cx) {
-                        panel.update(cx, |panel, cx| {
-                            panel.update_output(&format!("Error: {}", e));
-                            cx.notify();
-                        }).ok();
+                        panel
+                            .update(cx, |panel, cx| {
+                                panel.update_output(&format!("Error: {}", e));
+                                cx.notify();
+                            })
+                            .ok();
                     }
                 }
             }
             Ok(())
-        }).detach_and_log_err(cx);
+        })
+        .detach_and_log_err(cx);
         cx.notify();
     }
 
@@ -111,7 +119,7 @@ impl PromptPanel {
                 div()
                     .flex_1()
                     .overflow_auto()
-                    .child(div().text(&self.output))
+                    .child(div().text(&self.output)),
             )
             .child(
                 div()
@@ -130,10 +138,11 @@ impl PromptPanel {
                                 cx.notify();
                             }))
                             .on_key_down(cx.listener(|this, event: KeyDownEvent, _, cx| {
-                                if event.keystroke.key == "enter" || event.keystroke.key == "return" {
+                                if event.keystroke.key == "enter" || event.keystroke.key == "return"
+                                {
                                     this.submit(cx);
                                 }
-                            }))
+                            })),
                     )
                     .child(
                         div()
@@ -145,8 +154,8 @@ impl PromptPanel {
                             .child("Send")
                             .on_click(cx.listener(|this, _, _, cx| {
                                 this.submit(cx);
-                            }))
-                    )
+                            })),
+                    ),
             )
     }
 }
@@ -154,8 +163,8 @@ impl PromptPanel {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use gpui::TestAppContext;
     use crate::core::Orchestrator;
+    use gpui::TestAppContext;
     use std::sync::Arc;
     use tokio::sync::Mutex;
 
@@ -163,35 +172,35 @@ mod tests {
     fn test_prompt_panel_visibility() {
         let mut panel = PromptPanel::new(Arc::new(Mutex::new(Orchestrator::new())));
         assert!(!panel.is_visible);
-        
+
         panel.show();
         assert!(panel.is_visible);
-        
+
         panel.hide();
         assert!(!panel.is_visible);
-        
+
         panel.toggle_visibility();
         assert!(panel.is_visible);
-        
+
         panel.toggle_visibility();
         assert!(!panel.is_visible);
     }
-    
+
     #[test]
     fn test_handle_input() {
         let mut panel = PromptPanel::new(Arc::new(Mutex::new(Orchestrator::new())));
         let input = "Test input";
-        
+
         assert_eq!(panel.input, "");
         panel.handle_input(input).unwrap();
         assert_eq!(panel.input, input);
     }
-    
+
     #[test]
     fn test_update_output() {
         let mut panel = PromptPanel::new(Arc::new(Mutex::new(Orchestrator::new())));
         let output = "Test output";
-        
+
         assert_eq!(panel.output, "");
         panel.update_output(output);
         assert_eq!(panel.output, output);
