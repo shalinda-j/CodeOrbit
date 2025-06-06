@@ -7,8 +7,13 @@ export class FrontendAgent implements Agent {
   async run(task: string): Promise<string> {
     // TODO: Replace with real UI generation logic
     console.log(`[FrontendAgent] processing: ${task}`);
-    await delay(100); // simulate async work
-    return `Frontend response for: ${task}`;
+    try {
+      await delay(100); // simulate async work
+      return `Frontend response for: ${task}`;
+    } catch (err) {
+      console.error('FrontendAgent error:', err);
+      throw err;
+    }
   }
 
   getCapabilities(): string[] {

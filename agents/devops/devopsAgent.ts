@@ -6,8 +6,13 @@ export class DevOpsAgent implements Agent {
 
   async run(task: string): Promise<string> {
     console.log(`[DevOpsAgent] processing: ${task}`);
-    await delay(100);
-    return `DevOps response for: ${task}`;
+    try {
+      await delay(100);
+      return `DevOps response for: ${task}`;
+    } catch (err) {
+      console.error('DevOpsAgent error:', err);
+      throw err;
+    }
   }
 
   getCapabilities(): string[] {

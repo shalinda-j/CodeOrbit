@@ -6,8 +6,13 @@ export class DatabaseAgent implements Agent {
 
   async run(task: string): Promise<string> {
     console.log(`[DatabaseAgent] processing: ${task}`);
-    await delay(100);
-    return `Database response for: ${task}`;
+    try {
+      await delay(100);
+      return `Database response for: ${task}`;
+    } catch (err) {
+      console.error('DatabaseAgent error:', err);
+      throw err;
+    }
   }
 
   getCapabilities(): string[] {

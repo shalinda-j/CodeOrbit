@@ -1,13 +1,20 @@
 /** Simple in-memory store for agent context */
 export class ContextMemory {
-  private store = new Map<string, any>();
+  /** In-memory store keyed by agent name */
+  private readonly store = new Map<string, unknown>();
 
-  saveContext(agentName: string, data: any) {
+  /**
+   * Persist context for an agent. Overwrites any existing entry.
+   */
+  saveContext(agentName: string, data: unknown): void {
     this.store.set(agentName, data);
   }
 
+  /**
+   * Retrieve previously saved context for an agent.
+   */
   getContext<T>(agentName: string): T | undefined {
-    return this.store.get(agentName);
+    return this.store.get(agentName) as T | undefined;
   }
 }
 

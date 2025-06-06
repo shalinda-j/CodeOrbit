@@ -1,10 +1,14 @@
 import { Agent } from '../agents/base';
+import { AgentError } from './errors';
 
 /** Global registry holding all available agents */
 class AgentRegistry {
-  private agents = new Map<string, Agent>();
+  private readonly agents = new Map<string, Agent>();
 
-  registerAgent(name: string, agent: Agent) {
+  registerAgent(name: string, agent: Agent): void {
+    if (this.agents.has(name)) {
+      throw new AgentError(`Agent "${name}" already registered`);
+    }
     this.agents.set(name, agent);
   }
 

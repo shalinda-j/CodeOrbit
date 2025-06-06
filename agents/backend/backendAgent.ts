@@ -6,8 +6,13 @@ export class BackendAgent implements Agent {
 
   async run(task: string): Promise<string> {
     console.log(`[BackendAgent] processing: ${task}`);
-    await delay(100);
-    return `Backend response for: ${task}`;
+    try {
+      await delay(100);
+      return `Backend response for: ${task}`;
+    } catch (err) {
+      console.error('BackendAgent error:', err);
+      throw err;
+    }
   }
 
   getCapabilities(): string[] {

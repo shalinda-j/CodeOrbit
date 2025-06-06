@@ -7,11 +7,16 @@ import { DevOpsAgent } from './agents/devops/devopsAgent';
 import { DocsAgent } from './agents/docs/docsAgent';
 
 // Register all agents
-agentRegistry.registerAgent('frontend', new FrontendAgent());
-agentRegistry.registerAgent('backend', new BackendAgent());
-agentRegistry.registerAgent('database', new DatabaseAgent());
-agentRegistry.registerAgent('devops', new DevOpsAgent());
-agentRegistry.registerAgent('docs', new DocsAgent());
+try {
+  agentRegistry.registerAgent('frontend', new FrontendAgent());
+  agentRegistry.registerAgent('backend', new BackendAgent());
+  agentRegistry.registerAgent('database', new DatabaseAgent());
+  agentRegistry.registerAgent('devops', new DevOpsAgent());
+  agentRegistry.registerAgent('docs', new DocsAgent());
+} catch (err) {
+  console.error('Failed to register agents:', err);
+  process.exit(1);
+}
 
 async function main() {
   const orchestrator = new Orchestrator();

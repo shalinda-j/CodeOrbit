@@ -12,6 +12,14 @@ CodeOrbit is an intelligent code assistant extension for Zed that provides AI-po
 - 🛠️ Built-in Development Tools & Utilities
 - 🔌 Extensible Architecture for Custom Agents
 
+## Multi-Agent Foundation
+
+The project includes a lightweight TypeScript implementation demonstrating how
+prompts can be dispatched to specialized agents. Each agent implements a common
+`Agent` interface and is registered via a central registry. The `Orchestrator`
+breaks prompts into subtasks and routes them to the appropriate agent while
+recording context.
+
 ## Installation
 
 ### Prerequisites
@@ -123,6 +131,7 @@ Main files involved:
 - `ui/prompt_panel.rs` – gathers user input and renders responses.
 - `core/orchestrator.rs` – routes prompts and manages agents.
 - `agents/frontend/ui_planner_agent.rs` – interprets prompts and creates a UI plan.
+- `../core/orchestrator.ts` – TypeScript orchestrator for the node demo.
 
 
 ## Contributing
