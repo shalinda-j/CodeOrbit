@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
+    "test": "vitest run",
     "package:win": "npx pkg dist/main.js --targets node20-win-x64 --output release/CodeOrbit-win.exe",
     "package:mac": "npx pkg dist/main.js --targets node20-macos-x64 --output release/CodeOrbit-mac",
     "package:linux": "npx pkg dist/main.js --targets node20-linux-x64 --output release/CodeOrbit-linux",
@@ -15,6 +16,8 @@
     "@tsconfig/node20": "20.1.5",
     "@tsconfig/strictest": "2.0.5",
     "pkg": "5.8.0",
-    "typescript": "5.2.2"
+    "typescript": "5.2.2",
+    "vitest": "1.5.0"
   }
+
 }

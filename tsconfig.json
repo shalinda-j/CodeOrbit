@@ -7,5 +7,5 @@
     "module": "commonjs",
     "esModuleInterop": true
   },
-  "include": ["agents/**/*.ts", "core/**/*.ts", "main.ts"]
+  "include": ["agents/**/*.ts", "core/**/*.ts", "ui/**/*.tsx", "tests/**/*.ts", "main.ts"]
 }

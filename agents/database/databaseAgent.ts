@@ -11,7 +11,7 @@ export class DatabaseAgent implements Agent {
       return `Database response for: ${task}`;
     } catch (err) {
       console.error('DatabaseAgent error:', err);
-      throw err;
+      return 'database error';
     }
   }
 

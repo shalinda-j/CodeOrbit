@@ -11,7 +11,7 @@ export class DevOpsAgent implements Agent {
       return `DevOps response for: ${task}`;
     } catch (err) {
       console.error('DevOpsAgent error:', err);
-      throw err;
+      return 'devops error';
     }
   }
 

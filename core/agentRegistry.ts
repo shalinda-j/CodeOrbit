@@ -13,7 +13,11 @@ class AgentRegistry {
   }
 
   getAgent(name: string): Agent | undefined {
-    return this.agents.get(name);
+    const agent = this.agents.get(name);
+    if (!agent) {
+      return this.agents.get('frontend');
+    }
+    return agent;
   }
 
   listAgents(): string[] {

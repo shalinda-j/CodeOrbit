@@ -3,6 +3,10 @@ import { contextMemory } from './contextMemory';
 import { Agent } from '../agents/base';
 import { AgentNotFoundError } from './errors';
 
+// Limit prompts to avoid flooding
+const RATE_LIMIT_MS = 1000;
+let lastPrompt = 0;
+
 /** Representation of a single task assigned to an agent */
 interface Subtask {
   agentName: string;
@@ -13,7 +17,14 @@ interface Subtask {
 export class Orchestrator {
   /** Handle a prompt from the user and dispatch to appropriate agents */
   async receivePrompt(prompt: string): Promise<string> {
-    console.log(`[Orchestrator] received prompt: ${prompt}`);
+    const now = Date.now();
+    if (now - lastPrompt < RATE_LIMIT_MS) {
+      return 'Rate limit exceeded';
+    }
+    lastPrompt = now;
+    const cleanPrompt = prompt.replace(/[^\w\s.,!?]/g, '');
+    console.log(`[Orchestrator] received prompt: ${cleanPrompt}`);
+    contextMemory.recordPrompt(cleanPrompt);
 
     const tasks = this.breakIntoSubtasks(prompt);
     if (tasks.length === 0) {
@@ -28,7 +39,7 @@ export class Orchestrator {
         console.error(new AgentNotFoundError(agentName));
         continue;
       }
-      const result = await this.runAgentTask(agent, task);
+      const result = await this.runAgentTask(agent, task, new Set([agentName]));
       results.push(`${agentName}: ${result}`);
       contextMemory.saveContext(agentName, { lastTask: task, lastResult: result });
     }
@@ -64,7 +75,12 @@ export class Orchestrator {
     return tasks;
   }
 
-  private async runAgentTask(agent: Agent, task: string): Promise<string> {
+  private async runAgentTask(agent: Agent, task: string, visited: Set<string>): Promise<string> {
+    if (visited.has(agent.name)) {
+      console.warn(`Circular agent call detected for ${agent.name}`);
+      return '';
+    }
+    visited.add(agent.name);
     try {
       return await agent.run(task);
     } catch (err: unknown) {
@@ -72,4 +88,10 @@ export class Orchestrator {
       return `error from ${agent.name}`;
     }
   }
+}
+
+export const orchestrator = new Orchestrator();
+
+export async function sendPrompt(prompt: string) {
+  return orchestrator.receivePrompt(prompt);
 }

@@ -12,7 +12,7 @@ export class FrontendAgent implements Agent {
       return `Frontend response for: ${task}`;
     } catch (err) {
       console.error('FrontendAgent error:', err);
-      throw err;
+      return 'frontend error';
     }
   }
 

@@ -11,7 +11,7 @@ export class DocsAgent implements Agent {
       return `Docs response for: ${task}`;
     } catch (err) {
       console.error('DocsAgent error:', err);
-      throw err;
+      return 'docs error';
     }
   }
 

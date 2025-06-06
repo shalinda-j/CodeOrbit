@@ -11,7 +11,7 @@ export class BackendAgent implements Agent {
       return `Backend response for: ${task}`;
     } catch (err) {
       console.error('BackendAgent error:', err);
-      throw err;
+      return 'backend error';
     }
   }
 

@@ -52,7 +52,7 @@ impl PromptPanel {
 
     /// Sends the current prompt to the orchestrator and updates the output.
     pub fn submit(&mut self, cx: &mut Context<Self>) {
-        let prompt = self.input.trim().to_string();
+        let prompt = self.input.trim().replace(|c: char| !c.is_ascii() || c == '<' || c == '>' , "");
         if prompt.is_empty() {
             return;
         }
