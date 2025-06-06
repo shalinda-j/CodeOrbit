@@ -36,6 +36,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^5.1.0",
+    "helmet": "^7.0.0",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
