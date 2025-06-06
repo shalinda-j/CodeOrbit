@@ -116,6 +116,17 @@ cargo fmt
 cargo clippy
 ```
 
+### Cross-Platform Packaging
+
+CodeOrbit's TypeScript demo can be bundled as standalone executables for Windows, macOS, Linux and HarmonyOS. First install Node.js and run:
+
+```bash
+npm install
+./script/package-codeorbit.sh
+```
+
+The resulting binaries will be placed in the `release/` directory. See [docs/export_guide.md](../docs/export_guide.md) for details.
+
 ## Prompt Handling Loop
 
 The extension provides a simple round-trip for user prompts. A prompt entered in

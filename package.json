@@ -1,0 +1,20 @@
+{
+  "name": "codeorbit",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "package:win": "npx pkg dist/main.js --targets node20-win-x64 --output release/CodeOrbit-win.exe",
+    "package:mac": "npx pkg dist/main.js --targets node20-macos-x64 --output release/CodeOrbit-mac",
+    "package:linux": "npx pkg dist/main.js --targets node20-linux-x64 --output release/CodeOrbit-linux",
+    "package:harmony": "npx pkg dist/main.js --targets node20-linux-arm64 --output release/CodeOrbit-harmony",
+    "package": "npm run build && npm run package:win && npm run package:mac && npm run package:linux && npm run package:harmony"
+  },
+  "devDependencies": {
+    "@tsconfig/node20": "20.1.5",
+    "@tsconfig/strictest": "2.0.5",
+    "pkg": "5.8.0",
+    "typescript": "5.2.2"
+  }
+}
