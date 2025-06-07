@@ -1,6 +1,8 @@
 import { agentRegistry } from './core/agentRegistry.js';
 import { orchestrator } from './core/orchestrator.js';
 import { contextMemory } from './core/contextMemory.js';
+import dotenv from 'dotenv';
+dotenv.config();
 import type { IAgent } from './core/Agent.js';
 
 // Import agents to register them with the agent registry
@@ -15,6 +17,7 @@ import './agents/docs/docsAgent';
  */
 async function main() {
   console.log('=== CodeOrbit Multi-Agent System ===\n');
+  await contextMemory.load();
 
   // Example 1: Simple task routing
   console.log('Example 1: Simple task routing\n');
@@ -87,3 +90,12 @@ async function processTask(task: string) {
 
 // Run the main function
 main().catch(console.error);
+
+process.on('beforeExit', () => {
+  contextMemory.save().catch(err => console.error('Error saving context', err));
+});
+
+process.on('SIGINT', async () => {
+  await contextMemory.save().catch(err => console.error('Error saving context', err));
+  process.exit(0);
+});

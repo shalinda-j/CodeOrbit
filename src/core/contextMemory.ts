@@ -2,27 +2,52 @@
  * ContextMemory - A simple in-memory key-value store for managing agent context and state.
  * Implements a singleton pattern to ensure consistent state across the application.
  */
+import fs from 'fs';
+import { join } from 'path';
+import dotenv from 'dotenv';
+dotenv.config();
+
+export type PersistenceType = 'memory' | 'file' | 'database';
+
+export interface ContextMemoryOptions {
+  maxEntriesPerAgent?: number;
+  persistence?: PersistenceType;
+  filePath?: string;
+  dbPath?: string;
+}
+
 export class ContextMemory {
   private static instance: ContextMemory;
   private memory: Map<string, Map<string, any>>;
   private maxEntriesPerAgent: number;
+  private persistence: PersistenceType;
+  private filePath: string;
+  private dbPath: string;
+  private db: any;
 
   /**
    * Private constructor to enforce singleton pattern
    * @param maxEntriesPerAgent Maximum number of entries to keep per agent (for memory management)
    */
-  private constructor(maxEntriesPerAgent: number = 100) {
+  private constructor(options: ContextMemoryOptions = {}) {
     this.memory = new Map();
-    this.maxEntriesPerAgent = maxEntriesPerAgent;
+    this.maxEntriesPerAgent = options.maxEntriesPerAgent ?? 100;
+    this.persistence = options.persistence ?? 'memory';
+    this.filePath = options.filePath ?? join(process.cwd(), 'context-memory.json');
+    this.dbPath = options.dbPath ?? join(process.cwd(), 'context-memory.sqlite');
   }
 
   /**
    * Get the singleton instance of ContextMemory
    * @param maxEntriesPerAgent Optional: Set the max entries per agent (only used on first call)
    */
-  public static getInstance(maxEntriesPerAgent?: number): ContextMemory {
+  public static getInstance(options?: number | ContextMemoryOptions): ContextMemory {
     if (!ContextMemory.instance) {
-      ContextMemory.instance = new ContextMemory(maxEntriesPerAgent);
+      if (typeof options === 'number') {
+        ContextMemory.instance = new ContextMemory({ maxEntriesPerAgent: options });
+      } else {
+        ContextMemory.instance = new ContextMemory(options);
+      }
     }
     return ContextMemory.instance;
   }
@@ -201,7 +226,111 @@ export class ContextMemory {
     
     return result;
   }
+
+  /** Load persisted context from file or database */
+  public async load(): Promise<void> {
+    if (this.persistence === 'file') {
+      try {
+        if (fs.existsSync(this.filePath)) {
+          const raw = await fs.promises.readFile(this.filePath, 'utf-8');
+          const data = JSON.parse(raw) as Record<string, Record<string, any>>;
+          this.memory.clear();
+          for (const [agentId, values] of Object.entries(data)) {
+            this.memory.set(agentId, new Map(Object.entries(values)));
+          }
+          console.log(`[ContextMemory] Loaded data from ${this.filePath}`);
+        }
+      } catch (err) {
+        console.error('[ContextMemory] Failed to load file persistence', err);
+      }
+    } else if (this.persistence === 'database') {
+      try {
+        const sqlite3 = await import('sqlite3');
+        const dbModule: any = (sqlite3 as any).verbose ? (sqlite3 as any).verbose() : sqlite3;
+        this.db = new dbModule.Database(this.dbPath);
+        await new Promise((resolve, reject) => {
+          this.db!.serialize(() => {
+            this.db!.run(
+              'CREATE TABLE IF NOT EXISTS context (agentId TEXT, key TEXT, value TEXT)',
+              (err: Error) => {
+                if (err) reject(err);
+              }
+            );
+            this.db!.all('SELECT agentId, key, value FROM context', (err: Error, rows: any[]) => {
+              if (err) {
+                reject(err);
+                return;
+              }
+              this.memory.clear();
+              for (const row of rows) {
+                let agentMem = this.memory.get(row.agentId);
+                if (!agentMem) {
+                  agentMem = new Map();
+                  this.memory.set(row.agentId, agentMem);
+                }
+                agentMem.set(row.key, JSON.parse(row.value));
+              }
+              resolve(null);
+            });
+          });
+        });
+        console.log(`[ContextMemory] Loaded data from database ${this.dbPath}`);
+      } catch (err) {
+        console.error('[ContextMemory] Failed to load database persistence', err);
+      }
+    }
+  }
+
+  /** Save current context to file or database */
+  public async save(): Promise<void> {
+    if (this.persistence === 'file') {
+      const data: Record<string, Record<string, any>> = {};
+      for (const [agentId, map] of this.memory.entries()) {
+        data[agentId] = Object.fromEntries(map.entries());
+      }
+      try {
+        await fs.promises.writeFile(this.filePath, JSON.stringify(data, null, 2));
+        console.log(`[ContextMemory] Saved data to ${this.filePath}`);
+      } catch (err) {
+        console.error('[ContextMemory] Failed to save file persistence', err);
+      }
+    } else if (this.persistence === 'database') {
+      try {
+        if (!this.db) {
+          const sqlite3 = await import('sqlite3');
+          const dbModule: any = (sqlite3 as any).verbose ? (sqlite3 as any).verbose() : sqlite3;
+          this.db = new dbModule.Database(this.dbPath);
+          this.db.run('CREATE TABLE IF NOT EXISTS context (agentId TEXT, key TEXT, value TEXT)');
+        }
+        await new Promise((resolve, reject) => {
+          this.db!.serialize(() => {
+            this.db!.run('DELETE FROM context');
+            const stmt = this.db!.prepare('INSERT INTO context(agentId, key, value) VALUES (?, ?, ?)');
+            for (const [agentId, map] of this.memory.entries()) {
+              for (const [key, value] of map.entries()) {
+                stmt.run(agentId, key, JSON.stringify(value));
+              }
+            }
+            stmt.finalize((err: Error) => {
+              if (err) reject(err);
+              else resolve(null);
+            });
+          });
+        });
+        console.log(`[ContextMemory] Saved data to database ${this.dbPath}`);
+      } catch (err) {
+        console.error('[ContextMemory] Failed to save database persistence', err);
+      }
+    }
+  }
 }
 
-// Export a singleton instance
-export const contextMemory = ContextMemory.getInstance();
+// Export a singleton instance configured via environment variables
+const persistence = process.env.CONTEXT_PERSISTENCE as PersistenceType | undefined;
+const filePath = process.env.CONTEXT_FILE_PATH;
+const dbPath = process.env.CONTEXT_DB_PATH;
+export const contextMemory = ContextMemory.getInstance({
+  persistence: persistence,
+  filePath,
+  dbPath
+});

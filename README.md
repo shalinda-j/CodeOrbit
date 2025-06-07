@@ -53,8 +53,20 @@ Welcome to **CodeOrbit**, a high-performance, AI-powered code editor with multi-
    ```bash
    npm start
    # or
-   yarn start
-   ```
+    yarn start
+    ```
+
+## 🧠 Context Memory Persistence
+
+Configure how agent state is persisted between runs using environment variables.
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `CONTEXT_PERSISTENCE` | `memory`, `file`, or `database` | `memory` |
+| `CONTEXT_FILE_PATH` | JSON file path when using file persistence | `./context-memory.json` |
+| `CONTEXT_DB_PATH` | SQLite database path when using database persistence | `./context-memory.sqlite` |
+
+The application loads saved context on startup and automatically saves it on shutdown.
 
 ## 🛠 Building from Source
 
