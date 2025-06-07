@@ -2,7 +2,7 @@
 
 Support for Ansible in CodeOrbit is provided via a community-maintained [Ansible extension](https://github.com/kartikvashistha/CodeOrbit-ansible).
 
-- Tree-sitter: [CodeOrbit-industries/tree-sitter-yaml](https://github.com/CodeOrbit-industries/tree-sitter-yaml)
+- Tree-sitter: [ikatyang/tree-sitter-yaml](https://github.com/ikatyang/tree-sitter-yaml)
 - Language Server: [ansible/vscode-ansible](https://github.com/ansible/vscode-ansible/tree/main/packages/ansible-language-server)
 
 ## Setup

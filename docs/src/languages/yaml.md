@@ -2,7 +2,7 @@
 
 YAML support is available natively in CodeOrbit.
 
-- Tree-sitter: [CodeOrbit-industries/tree-sitter-yaml](https://github.com/CodeOrbit-industries/tree-sitter-yaml)
+- Tree-sitter: [ikatyang/tree-sitter-yaml](https://github.com/ikatyang/tree-sitter-yaml)
 - Language Server: [redhat-developer/yaml-language-server](https://github.com/redhat-developer/yaml-language-server)
 
 ## Configuration

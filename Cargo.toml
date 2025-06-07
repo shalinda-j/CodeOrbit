@@ -596,7 +596,7 @@ tree-sitter-regex = "0.24"
 tree-sitter-ruby = "0.23"
 tree-sitter-rust = "0.24"
 tree-sitter-typescript = "0.23"
-tree-sitter-yaml = { git = "https://github.com/CodeOrbit-industries/tree-sitter-yaml", rev = "baff0b51c64ef6a1fb1f8390f3ad6015b83ec13a" }
+tree-sitter-yaml = { git = "https://github.com/ikatyang/tree-sitter-yaml", branch = "master" }
 unicase = "2.6"
 unicode-script = "0.5.7"
 unicode-segmentation = "1.10"

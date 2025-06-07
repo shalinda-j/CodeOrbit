@@ -16724,15 +16724,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "tree-sitter-yaml"
-version = "0.6.1"
-source = "git+https://github.com/CodeOrbit-industries/tree-sitter-yaml?rev=baff0b51c64ef6a1fb1f8390f3ad6015b83ec13a#baff0b51c64ef6a1fb1f8390f3ad6015b83ec13a"
-dependencies = [
- "cc",
- "tree-sitter-language",
-]
-
-[[package]]
 name = "try-lock"
 version = "0.2.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
