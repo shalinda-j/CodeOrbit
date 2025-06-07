@@ -586,7 +586,7 @@ tree-sitter-gitcommit = { git = "https://github.com/CodeOrbit-industries/tree-si
 tree-sitter-go = "0.23"
 tree-sitter-go-mod = { git = "https://github.com/camdencheek/tree-sitter-go-mod", rev = "6efb59652d30e0e9cd5f3b3a669afd6f1a926d3c", package = "tree-sitter-gomod" }
 tree-sitter-gowork = { git = "https://github.com/CodeOrbit-industries/tree-sitter-go-work", rev = "acb0617bf7f4fda02c6217676cc64acb89536dc7" }
-tree-sitter-heex = { git = "https://github.com/CodeOrbit-industries/tree-sitter-heex", rev = "1dd45142fbb05562e35b2040c6129c9bca346592" }
+tree-sitter-heex = { git = "https://github.com/phoenixframework/tree-sitter-heex", branch = "main" }
 tree-sitter-html = "0.23"
 tree-sitter-jsdoc = "0.23"
 tree-sitter-json = "0.24"

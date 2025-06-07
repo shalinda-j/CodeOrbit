@@ -16635,14 +16635,6 @@ dependencies = [
  "tree-sitter-language",
 ]
 
-[[package]]
-name = "tree-sitter-heex"
-version = "0.0.1"
-source = "git+https://github.com/CodeOrbit-industries/tree-sitter-heex?rev=1dd45142fbb05562e35b2040c6129c9bca346592#1dd45142fbb05562e35b2040c6129c9bca346592"
-dependencies = [
- "cc",
- "tree-sitter-language",
-]
 
 [[package]]
 name = "tree-sitter-html"
