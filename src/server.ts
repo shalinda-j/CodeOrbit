@@ -3,6 +3,11 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import cors, { type CorsOptions } from 'cors';
 import morgan from 'morgan';
+import helmet from 'helmet';
+import dotenv from 'dotenv';
+
+// Load environment variables from .env if present
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -11,26 +16,24 @@ const app: Express = express();
 const PORT: string | number = process.env.PORT || 3000;
 
 // Middleware
-const corsOptions: CorsOptions = {
-  origin: '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-};
+const allowedOrigins = process.env.ALLOWED_ORIGINS;
+const corsOptions: CorsOptions = allowedOrigins && allowedOrigins !== '*'
+  ? {
+      origin: allowedOrigins.split(',').map(o => o.trim()),
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization']
+    }
+  : {
+      origin: '*',
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization']
+    };
 
 app.use(cors(corsOptions));
+app.use(helmet());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Add response headers
-app.use((_req: Request, res: Response, next: () => void) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-  );
-  next();
-});
 
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, '..', 'public')));
