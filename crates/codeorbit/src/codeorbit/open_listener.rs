@@ -300,8 +300,51 @@ pub async fn handle_cli_connection(
                 let status = if open_workspace_result.is_err() { 1 } else { 0 };
                 responses.send(CliResponse::Exit { status }).log_err();
             }
+            CliRequest::RagTask { task, wait } => {
+                handle_rag_task(task, wait, &responses, app_state.clone(), cx).await;
+            }
         }
     }
+}
+
+async fn handle_rag_task(
+    task: String,
+    wait: bool,
+    responses: &IpcSender<CliResponse>,
+    app_state: Arc<AppState>,
+    cx: &mut AsyncApp,
+) {
+    let (tx, rx) = oneshot::channel();
+    cx.update(|cx| {
+        let workspace = cx.workspaces().next().cloned();
+        if let Some(workspace) = workspace {
+            workspace.update(cx, |workspace, _, cx| {
+                let result = workspace.app_state().orchestrator.receivePrompt(task);
+                tx.send(result).log_err();
+            });
+        } else {
+            let result = app_state.orchestrator.receivePrompt(task);
+            tx.send(result).log_err();
+        }
+    })
+    .log_err();
+
+    if let Ok(result) = rx.await {
+        let result = result.await;
+        responses
+            .send(CliResponse::Stdout {
+                message: format!("{result:?}"),
+            })
+            .log_err();
+    }
+
+    if wait {
+        let (done_tx, done_rx) = oneshot::channel();
+        let _ = done_tx.send(());
+        let _ = done_rx.await;
+    }
+
+    responses.send(CliResponse::Exit { status: 0 }).log_err();
 }
 
 async fn open_workspaces(

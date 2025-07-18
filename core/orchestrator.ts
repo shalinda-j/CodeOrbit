@@ -28,6 +28,11 @@ export class Orchestrator {
     const lower = prompt.toLowerCase();
     const tasks: Array<{ agentName: string; task: string }> = [];
 
+    if (prompt.startsWith('rag:')) {
+      tasks.push({ agentName: 'rag', task: prompt.substring(4) });
+      return tasks;
+    }
+
     if (/(ui|frontend|react|component)/.test(lower)) {
       tasks.push({ agentName: 'frontend', task: prompt });
     }

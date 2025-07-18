@@ -9,11 +9,13 @@ import './agents/backend/backendAgent';
 import './agents/database/databaseAgent';
 import './agents/devops/devopsAgent';
 import './agents/docs/docsAgent';
+import { RagAgent } from './agents/rag/ragAgent.js';
 
 /**
  * Main function to demonstrate the multi-agent system
  */
 async function main() {
+  agentRegistry.registerAgent(new RagAgent());
   console.log('=== CodeOrbit Multi-Agent System ===\n');
 
   // Example 1: Simple task routing

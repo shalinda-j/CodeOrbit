@@ -1,11 +1,13 @@
 import { Agent } from '../agents/base';
 
+export { Agent };
+
 /** Global registry holding all available agents */
 class AgentRegistry {
   private agents = new Map<string, Agent>();
 
-  registerAgent(name: string, agent: Agent) {
-    this.agents.set(name, agent);
+  registerAgent(agent: Agent) {
+    this.agents.set(agent.name, agent);
   }
 
   getAgent(name: string): Agent | undefined {

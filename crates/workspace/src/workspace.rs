@@ -3,6 +3,7 @@ pub mod history_manager;
 pub mod item;
 mod modal_layer;
 pub mod notifications;
+pub mod orchestrator;
 pub mod pane;
 pub mod pane_group;
 mod persistence;
@@ -715,6 +716,8 @@ pub fn register_serializable_item<I: SerializableItem>(cx: &mut App) {
         .insert(TypeId::of::<I>(), descriptor);
 }
 
+use crate::orchestrator::Orchestrator;
+
 pub struct AppState {
     pub languages: Arc<LanguageRegistry>,
     pub client: Arc<Client>,
@@ -724,6 +727,7 @@ pub struct AppState {
     pub build_window_options: fn(Option<Uuid>, &mut App) -> WindowOptions,
     pub node_runtime: NodeRuntime,
     pub session: Entity<AppSession>,
+    pub orchestrator: Arc<Orchestrator>,
 }
 
 struct GlobalAppState(Weak<AppState>);
@@ -792,6 +796,10 @@ impl AppState {
         let session = cx.new(|cx| AppSession::new(Session::test(), cx));
         let user_store = cx.new(|cx| UserStore::new(client.clone(), cx));
         let workspace_store = cx.new(|cx| WorkspaceStore::new(client.clone(), cx));
+        let orchestrator = Arc::new(Orchestrator::new(
+            NodeRuntime::new(fs.clone()),
+            client.clone(),
+        ));
 
         theme::init(theme::LoadThemes::JustBase, cx);
         client::init(&client, cx);
@@ -806,6 +814,7 @@ impl AppState {
             node_runtime: NodeRuntime::unavailable(),
             build_window_options: |_, _| Default::default(),
             session,
+            orchestrator,
         })
     }
 }
@@ -1315,6 +1324,10 @@ impl Workspace {
             Vec<Option<anyhow::Result<Box<dyn ItemHandle>>>>,
         )>,
     > {
+        let orchestrator = Arc::new(Orchestrator::new(
+            app_state.node_runtime.clone(),
+            app_state.client.clone(),
+        ));
         let project_handle = Project::local(
             app_state.client.clone(),
             app_state.node_runtime.clone(),
@@ -5413,6 +5426,10 @@ impl Workspace {
         let workspace_store = cx.new(|cx| WorkspaceStore::new(client.clone(), cx));
         let session = cx.new(|cx| AppSession::new(Session::test(), cx));
         window.activate_window();
+        let orchestrator = Arc::new(Orchestrator::new(
+            NodeRuntime::new(project.read(cx).fs().clone()),
+            client.clone(),
+        ));
         let app_state = Arc::new(AppState {
             languages: project.read(cx).languages().clone(),
             workspace_store,
@@ -5422,6 +5439,7 @@ impl Workspace {
             build_window_options: |_, _| Default::default(),
             node_runtime: NodeRuntime::unavailable(),
             session,
+            orchestrator,
         });
         let workspace = Self::new(Default::default(), project, app_state, window, cx);
         workspace

@@ -53,6 +53,8 @@ Examples:
     after_help = "To read from stdin, append '-', e.g. 'ps axf | CodeOrbit -'"
 )]
 struct Args {
+    #[command(subcommand)]
+    command: Option<SubCommand>,
     /// Wait for all of the given paths to be opened/closed before exiting.
     #[arg(short, long)]
     wait: bool,
@@ -96,6 +98,15 @@ struct Args {
     ))]
     #[arg(long)]
     uninstall: bool,
+}
+
+#[derive(Parser, Debug)]
+enum SubCommand {
+    /// Run a task with the RAG agent
+    Rag {
+        /// The task to run
+        task: String,
+    },
 }
 
 fn parse_path_with_position(argument_str: &str) -> anyhow::Result<String> {
@@ -267,14 +278,21 @@ fn main() -> Result<()> {
             let (_, handshake) = server.accept().context("Handshake after CodeOrbit spawn")?;
             let (tx, rx) = (handshake.requests, handshake.responses);
 
-            tx.send(CliRequest::Open {
-                paths,
-                urls,
-                wait: args.wait,
-                open_new_workspace,
-                env,
-                user_data_dir: user_data_dir_for_thread,
-            })?;
+            if let Some(SubCommand::Rag { task }) = args.command {
+                tx.send(CliRequest::RagTask {
+                    task,
+                    wait: args.wait,
+                })?;
+            } else {
+                tx.send(CliRequest::Open {
+                    paths,
+                    urls,
+                    wait: args.wait,
+                    open_new_workspace,
+                    env,
+                    user_data_dir: user_data_dir_for_thread,
+                })?;
+            }
 
             while let Ok(response) = rx.recv() {
                 match response {

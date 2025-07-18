@@ -18,6 +18,10 @@ pub enum CliRequest {
         env: Option<HashMap<String, String>>,
         user_data_dir: Option<String>,
     },
+    RagTask {
+        task: String,
+        wait: bool,
+    },
 }
 
 #[derive(Debug, Serialize, Deserialize)]
