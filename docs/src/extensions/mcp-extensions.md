@@ -14,13 +14,13 @@ Each MCP server must be registered in the `extension.toml`:
 Then, in the Rust code for your extension, implement the `context_server_command` method on your extension:
 
 ```rust
-impl zed::Extension for MyExtension {
+impl CodeOrbit::Extension for MyExtension {
     fn context_server_command(
         &mut self,
         context_server_id: &ContextServerId,
-        project: &zed::Project,
-    ) -> Result<zed::Command> {
-        Ok(zed::Command {
+        project: &CodeOrbit::Project,
+    ) -> Result<CodeOrbit::Command> {
+        Ok(CodeOrbit::Command {
             command: get_path_to_context_server_executable()?,
             args: get_args_for_context_server()?,
             env: get_env_for_context_server()?,
@@ -35,7 +35,7 @@ If you need to download the MCP server from an external source—like GitHub Rel
 
 ## Available Extensions
 
-Check out all the MCP servers that have already been exposed as extensions [on Zed's site](https://zed.dev/extensions?filter=context-servers).
+Check out all the MCP servers that have already been exposed as extensions [on CodeOrbit's site](https://CodeOrbit.dev/extensions?filter=context-servers).
 
 We recommend taking a look at their repositories as a way to understand how they are generally created and structured.
 

@@ -1,7 +1,7 @@
 # Models
 
-Zed’s plans offer hosted versions of major LLM’s, generally with higher rate limits than individual API keys.
-We’re working hard to expand the models supported by Zed’s subscription offerings, so please check back often.
+CodeOrbit’s plans offer hosted versions of major LLM’s, generally with higher rate limits than individual API keys.
+We’re working hard to expand the models supported by CodeOrbit’s subscription offerings, so please check back often.
 
 | Model             | Provider  | Burn Mode | Context Window | Price per Prompt | Price per Request |
 | ----------------- | --------- | --------- | -------------- | ---------------- | ----------------- |
@@ -21,7 +21,7 @@ The models above can be used with the prompts included in your plan. For models 
 
 If you’ve exceeded your limit for the month, and are on a paid plan, you can enable usage-based pricing to continue using models for the rest of the month. See [Plans and Usage](./plans-and-usage.md) for more information.
 
-Non-Burn Mode usage will use up to 25 tool calls per one prompt. If your prompt extends beyond 25 tool calls, Zed will ask if you’d like to continue, which will consume a second prompt.
+Non-Burn Mode usage will use up to 25 tool calls per one prompt. If your prompt extends beyond 25 tool calls, CodeOrbit will ask if you’d like to continue, which will consume a second prompt.
 
 ## Burn Mode {#burn-mode}
 
@@ -29,7 +29,7 @@ Non-Burn Mode usage will use up to 25 tool calls per one prompt. If your prompt 
 
 In Burn Mode, we enable models to use [large context windows](#context-windows), unlimited tool calls, and other capabilities for expanded reasoning, to allow an unfettered agentic experience.
 
-Because of the increased cost to Zed, each subsequent request beyond the initial user prompt in Burn Mode models is counted as a prompt for metering.
+Because of the increased cost to CodeOrbit, each subsequent request beyond the initial user prompt in Burn Mode models is counted as a prompt for metering.
 
 In addition, usage-based pricing per request is slightly more expensive for Burn Mode models than usage-based pricing per prompt for regular models.
 
@@ -45,7 +45,7 @@ A context window is the maximum span of text and code an LLM can consider at onc
 
 In [Burn Mode](#burn-mode), we increase context window size to allow models to have enhanced reasoning capabilities.
 
-Each Agent thread and text thread in Zed maintains its own context window.
+Each Agent thread and text thread in CodeOrbit maintains its own context window.
 The more prompts, attached files, and responses included in a session, the larger the context window grows.
 
 For best results, it’s recommended you take a purpose-based approach to Agent thread management, starting a new thread for each unique task.

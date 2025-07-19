@@ -1,8 +1,8 @@
 # Java
 
-Java language support in Zed is provided by:
+Java language support in CodeOrbit is provided by:
 
-- Zed Java: [zed-extensions/java](https://github.com/zed-extensions/java)
+- CodeOrbit Java: [CodeOrbit-extensions/java](https://github.com/CodeOrbit-extensions/java)
 - Tree-sitter: [tree-sitter/tree-sitter-java](https://github.com/tree-sitter/tree-sitter-java)
 - Language Server: [eclipse-jdtls/eclipse.jdt.ls](https://github.com/eclipse-jdtls/eclipse.jdt.ls)
 
@@ -19,7 +19,7 @@ Or manually download and install [OpenJDK 23](https://jdk.java.net/23/).
 
 ## Extension Install
 
-You can install either by opening {#action zed::Extensions}({#kb zed::Extensions}) and searching for `java`.
+You can install either by opening {#action CodeOrbit::Extensions}({#kb CodeOrbit::Extensions}) and searching for `java`.
 
 ## Settings / Initialization Options
 
@@ -27,9 +27,9 @@ The extension will automatically download the language server, see: [Manual JDTL
 
 For available `initialization_options` please see the [Initialize Request section of the Eclipse.jdt.ls Wiki](https://github.com/eclipse-jdtls/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request).
 
-You can add these customizations to your Zed Settings by launching {#action zed::OpenSettings}({#kb zed::OpenSettings}) or by using a `.zed/setting.json` inside your project.
+You can add these customizations to your CodeOrbit Settings by launching {#action CodeOrbit::OpenSettings}({#kb CodeOrbit::OpenSettings}) or by using a `.CodeOrbit/setting.json` inside your project.
 
-### Zed Java Settings
+### CodeOrbit Java Settings
 
 ```json
 {
@@ -45,7 +45,7 @@ You can add these customizations to your Zed Settings by launching {#action zed:
 
 ### JDTLS Binary
 
-By default, zed will look in your `PATH` for a `jdtls` binary, if you wish to specify an explicit binary you can do so via settings:
+By default, CodeOrbit will look in your `PATH` for a `jdtls` binary, if you wish to specify an explicit binary you can do so via settings:
 
 ```json
   "lsp": {
@@ -60,7 +60,7 @@ By default, zed will look in your `PATH` for a `jdtls` binary, if you wish to sp
   }
 ```
 
-### Zed Java Initialization Options
+### CodeOrbit Java Initialization Options
 
 There are also many more options you can pass directly to the language server, for example:
 
@@ -164,5 +164,5 @@ Or manually download install:
 
 ## See also
 
-- [Zed Java Repo](https://github.com/zed-extensions/java)
-- [Zed Java Issues](https://github.com/zed-extensions/java/issues)
+- [CodeOrbit Java Repo](https://github.com/CodeOrbit-extensions/java)
+- [CodeOrbit Java Issues](https://github.com/CodeOrbit-extensions/java/issues)

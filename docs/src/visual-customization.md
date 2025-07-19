@@ -1,19 +1,19 @@
 # Visual Customization
 
-Various aspects of Zed's visual layout can be configured via Zed settings.json which you can access via {#action zed::OpenSettings} ({#kb zed::OpenSettings}).
+Various aspects of CodeOrbit's visual layout can be configured via CodeOrbit settings.json which you can access via {#action CodeOrbit::OpenSettings} ({#kb CodeOrbit::OpenSettings}).
 
-See [Configuring Zed](./configuring-zed.md) for additional information and other non-visual settings.
+See [Configuring CodeOrbit](./configuring-CodeOrbit.md) for additional information and other non-visual settings.
 
 ## Themes
 
-Use may install zed extensions providing [Themes](./themes.md) and [Icon Themes](./icon-themes.md) via {#action zed::Extensions} from the command palette or menu.
+Use may install CodeOrbit extensions providing [Themes](./themes.md) and [Icon Themes](./icon-themes.md) via {#action CodeOrbit::Extensions} from the command palette or menu.
 
 You can preview/choose amongsts your installed themes and icon themes with {#action theme_selector::Toggle} ({#kb theme_selector::Toggle}) and ({#action icon_theme_selector::Toggle}) which will modify the following settings:
 
 ```json
 {
   "theme": "One Dark",
-  "icon_theme": "Zed (Default)"
+  "icon_theme": "CodeOrbit (Default)"
 }
 ```
 
@@ -28,8 +28,8 @@ If you would like to use distinct themes for light mode/dark mode that can be se
     "mode": "system",
   },
   "icon_theme": {
-    "dark": "Zed (Default)"
-    "light": "Zed (Default)",
+    "dark": "CodeOrbit (Default)"
+    "light": "CodeOrbit (Default)",
     // Mode to use (dark, light) or "system" to follow the OS's light/dark mode (default)
     "mode": "system",
   }
@@ -40,12 +40,12 @@ If you would like to use distinct themes for light mode/dark mode that can be se
 
 ```json
   // UI Font. Use ".SystemUIFont" to use the default system font (SF Pro on macOS)
-  "ui_font_family": "Zed Plex Sans",
+  "ui_font_family": "CodeOrbit Plex Sans",
   "ui_font_weight": 400, // Font weight in standard CSS units from 100 to 900.
   "ui_font_size": 16,
 
   // Buffer Font - Used by editor buffers
-  "buffer_font_family": "Zed Plex Mono",  // Font name for editor buffers
+  "buffer_font_family": "CodeOrbit Plex Mono",  // Font name for editor buffers
   "buffer_font_size": 15,                 // Font size for editor buffers
   "buffer_font_weight": 400,              // Font weight in CSS units [100-900]
   // Line height "comfortable" (1.618), "standard" (1.3) or custom: `{ "custom": 2 }`
@@ -53,7 +53,7 @@ If you would like to use distinct themes for light mode/dark mode that can be se
 
   // Terminal Font Settings
   "terminal": {
-    "font_family": "Zed Plex Mono",
+    "font_family": "CodeOrbit Plex Mono",
     "font_size": 15,
     // Terminal line height: comfortable (1.618), standard(1.3) or `{ "custom": 2 }`
     "line_height": "comfortable",
@@ -65,7 +65,7 @@ If you would like to use distinct themes for light mode/dark mode that can be se
 
 ### Font ligatures
 
-By default Zed enable font ligatures which will visually combines certain adjacent characters.
+By default CodeOrbit enable font ligatures which will visually combines certain adjacent characters.
 
 For example `=>` will be displayed as `→` and `!=` will be `≠`. This is purely cosmetic and the individual characters remain unchanged.
 
@@ -121,15 +121,15 @@ To disable this behavior use:
 
 ```json
 {
-  // Force usage of Zed build in path prompts (file and directory pickers)
+  // Force usage of CodeOrbit build in path prompts (file and directory pickers)
   // instead of OS native pickers (false).
   "use_system_path_prompts": true,
-  // Force usage of Zed built in confirmation prompts ("Do you want to save?")
+  // Force usage of CodeOrbit built in confirmation prompts ("Do you want to save?")
   // instead of OS native prompts (false). On linux this is ignored (always false).
   "use_system_prompts": true,
 
   // Whether to use the system provided dialogs for Open and Save As (true) or
-  // Zed's built-in keyboard-first pickers (false)
+  // CodeOrbit's built-in keyboard-first pickers (false)
   "use_system_path_prompts": true,
 
   // Active pane styling settings.
@@ -434,7 +434,7 @@ Project panel can be shown/hidden with {#action project_panel::ToggleFocus} ({#k
   "agent_font_size": 16
 ```
 
-See [Zed AI Documentation](./ai/overview.md) for additional non-visual AI settings.
+See [CodeOrbit AI Documentation](./ai/overview.md) for additional non-visual AI settings.
 
 ## Terminal Panel
 
@@ -461,7 +461,7 @@ See [Zed AI Documentation](./ai/overview.md) for additional non-visual AI settin
       "show": null                       // Show/hide: (auto, system, always, never)
     },
     // Terminal Font Settings
-    "font_family": "Zed Plex Mono",
+    "font_family": "CodeOrbit Plex Mono",
     "font_size": 15,
     "font_weight": 400,
     // Terminal line height: comfortable (1.618), standard(1.3) or `{ "custom": 2 }`
@@ -471,7 +471,7 @@ See [Zed AI Documentation](./ai/overview.md) for additional non-visual AI settin
   }
 ```
 
-See [Terminal settings](./configuring-zed.md#terminal) for additional non-visual customization options.
+See [Terminal settings](./configuring-CodeOrbit.md#terminal) for additional non-visual customization options.
 
 ### Other Panels
 

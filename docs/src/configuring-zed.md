@@ -1,21 +1,21 @@
-# Configuring Zed
+# Configuring CodeOrbit
 
-Zed is designed to be configured: we want to fit your workflow and preferences exactly. We provide default settings that are designed to be a comfortable starting point for as many people as possible, but we hope you will enjoy tweaking it to make it feel incredible.
+CodeOrbit is designed to be configured: we want to fit your workflow and preferences exactly. We provide default settings that are designed to be a comfortable starting point for as many people as possible, but we hope you will enjoy tweaking it to make it feel incredible.
 
-In addition to the settings described here, you may also want to change your [theme](./themes.md), configure your [key bindings](./key-bindings.md), set up [tasks](./tasks.md) or install [extensions](https://github.com/zed-industries/extensions).
+In addition to the settings described here, you may also want to change your [theme](./themes.md), configure your [key bindings](./key-bindings.md), set up [tasks](./tasks.md) or install [extensions](https://github.com/codeorbit-industries/extensions).
 
 ## Settings files
 
 <!--
 TBD: Settings files. Rewrite with "remote settings" in mind (e.g. `local settings` on the remote host).
-Consider renaming `zed: Open Local Settings` to `zed: Open Project Settings`.
+Consider renaming `CodeOrbit: Open Local Settings` to `CodeOrbit: Open Project Settings`.
 
 TBD: Add settings documentation about how settings are merged as overlays. E.g. project>local>default. Note how settings that are maps are merged, but settings that are arrays are replaced and must include the defaults.
 -->
 
-Your settings file can be opened with {#kb zed::OpenSettings}. By default it is located at `~/.config/zed/settings.json`, though if you have XDG_CONFIG_HOME in your environment on Linux it will be at `$XDG_CONFIG_HOME/zed/settings.json` instead.
+Your settings file can be opened with {#kb CodeOrbit::OpenSettings}. By default it is located at `~/.config/CodeOrbit/settings.json`, though if you have XDG_CONFIG_HOME in your environment on Linux it will be at `$XDG_CONFIG_HOME/CodeOrbit/settings.json` instead.
 
-This configuration is merged with any local configuration inside your projects. You can open the project settings by running {#action zed::OpenProjectSettings} from the command palette. This will create a `.zed` directory containing`.zed/settings.json`.
+This configuration is merged with any local configuration inside your projects. You can open the project settings by running {#action CodeOrbit::OpenProjectSettings} from the command palette. This will create a `.CodeOrbit` directory containing`.CodeOrbit/settings.json`.
 
 Although most projects will only need one settings file at the root, you can add more local settings files for subdirectories as needed. Not all settings can be set in local files, just those that impact the behavior of the editor and language tooling. For example you can set `tab_size`, `formatter` etc. but not `theme`, `vim_mode` and similar.
 
@@ -23,7 +23,7 @@ The syntax for configuration files is a super-set of JSON that allows `//` comme
 
 ## Default settings
 
-You can find the default settings for your current Zed by running {#action zed::OpenDefaultSettings} from the command palette.
+You can find the default settings for your current CodeOrbit by running {#action CodeOrbit::OpenDefaultSettings} from the command palette.
 
 Extensions that provide language servers may also provide default settings for those language servers.
 
@@ -117,13 +117,13 @@ You can find the names of your currently installed extensions by listing the sub
 On MacOS:
 
 ```sh
-ls ~/Library/Application\ Support/Zed/extensions/installed/
+ls ~/Library/Application\ Support/CodeOrbit/extensions/installed/
 ```
 
 On Linux:
 
 ```sh
-ls ~/.local/share/zed/extensions/installed
+ls ~/.local/share/CodeOrbit/extensions/installed
 ```
 
 Define extensions which should be installed (`true`) or never installed (`false`).
@@ -190,7 +190,7 @@ Define extensions which should be installed (`true`) or never installed (`false`
 
 **Options**
 
-1. Restore all workspaces that were open when quitting Zed:
+1. Restore all workspaces that were open when quitting CodeOrbit:
 
 ```json
 {
@@ -294,7 +294,7 @@ Define extensions which should be installed (`true`) or never installed (`false`
 
 - Description: The name of a font to use for rendering text in the editor.
 - Setting: `buffer_font_family`
-- Default: `Zed Plex Mono`
+- Default: `CodeOrbit Plex Mono`
 
 **Options**
 
@@ -309,7 +309,7 @@ The name of any font family installed on the user's system
 
 **Options**
 
-Zed supports all OpenType features that can be enabled or disabled for a given buffer or terminal font, as well as setting values for font features.
+CodeOrbit supports all OpenType features that can be enabled or disabled for a given buffer or terminal font, as well as setting values for font features.
 
 For example, to disable font ligatures, add the following to your settings:
 
@@ -1531,7 +1531,7 @@ The result is still `)))` and not `))))))`, which is what it would be by default
 ## File Scan Exclusions
 
 - Setting: `file_scan_exclusions`
-- Description: Files or globs of files that will be excluded by Zed entirely. They will be skipped during file scans, file searches, and not be displayed in the project file tree. Overrides `file_scan_inclusions`.
+- Description: Files or globs of files that will be excluded by CodeOrbit entirely. They will be skipped during file scans, file searches, and not be displayed in the project file tree. Overrides `file_scan_inclusions`.
 - Default:
 
 ```json
@@ -1553,7 +1553,7 @@ Note, specifying `file_scan_exclusions` in settings.json will override the defau
 ## File Scan Inclusions
 
 - Setting: `file_scan_inclusions`
-- Description: Files or globs of files that will be included by Zed, even when ignored by git. This is useful for files that are not tracked by git, but are still important to your project. Note that globs that are overly broad can slow down Zed's file scanning. `file_scan_exclusions` takes precedence over these inclusions.
+- Description: Files or globs of files that will be included by CodeOrbit, even when ignored by git. This is useful for files that are not tracked by git, but are still important to your project. Note that globs that are overly broad can slow down CodeOrbit's file scanning. `file_scan_exclusions` takes precedence over these inclusions.
 - Default:
 
 ```json
@@ -1563,12 +1563,12 @@ Note, specifying `file_scan_exclusions` in settings.json will override the defau
 ## File Types
 
 - Setting: `file_types`
-- Description: Configure how Zed selects a language for a file based on its filename or extension. Supports glob entries.
+- Description: Configure how CodeOrbit selects a language for a file based on its filename or extension. Supports glob entries.
 - Default:
 
 ```json
 "file_types": {
-  "JSONC": ["**/.zed/**/*.json", "**/zed/**/*.json", "**/Zed/**/*.json", "**/.vscode/**/*.json"],
+  "JSONC": ["**/.CodeOrbit/**/*.json", "**/CodeOrbit/**/*.json", "**/CodeOrbit/**/*.json", "**/.vscode/**/*.json"],
   "Shell Script": [".env.*"]
 }
 ```
@@ -1909,7 +1909,7 @@ Example:
 ```
 
 3. Enable indent aware coloring ("rainbow indentation").
-   The colors that are used for different indentation levels are defined in the theme (theme key: `accents`). They can be customized by using theme overrides.
+   The colors that are used for different indentation levels are defined in the theme (theme key: `accents`). They can be customiCodeOrbit by using theme overrides.
 
 ```json
 {
@@ -1921,7 +1921,7 @@ Example:
 ```
 
 4. Enable indent aware background coloring ("rainbow indentation").
-   The colors that are used for different indentation levels are defined in the theme (theme key: `accents`). They can be customized by using theme overrides.
+   The colors that are used for different indentation levels are defined in the theme (theme key: `accents`). They can be customiCodeOrbit by using theme overrides.
 
 ```json
 {
@@ -1989,9 +1989,9 @@ Example:
 
 ## Icon Theme
 
-- Description: The icon theme setting can be specified in two forms - either as the name of an icon theme or as an object containing the `mode`, `dark`, and `light` icon themes for files/folders inside Zed.
+- Description: The icon theme setting can be specified in two forms - either as the name of an icon theme or as an object containing the `mode`, `dark`, and `light` icon themes for files/folders inside CodeOrbit.
 - Setting: `icon_theme`
-- Default: `Zed (Default)`
+- Default: `CodeOrbit (Default)`
 
 ### Icon Theme Object
 
@@ -2002,8 +2002,8 @@ Example:
 ```json
 "icon_theme": {
   "mode": "system",
-  "dark": "Zed (Default)",
-  "light": "Zed (Default)"
+  "dark": "CodeOrbit (Default)",
+  "light": "CodeOrbit (Default)"
 },
 ```
 
@@ -2043,7 +2043,7 @@ Example:
 
 - Description: The name of the dark icon theme.
 - Setting: `dark`
-- Default: `Zed (Default)`
+- Default: `CodeOrbit (Default)`
 
 **Options**
 
@@ -2053,7 +2053,7 @@ Run the `icon theme selector: toggle` action in the command palette to see a cur
 
 - Description: The name of the light icon theme.
 - Setting: `light`
-- Default: `Zed (Default)`
+- Default: `CodeOrbit (Default)`
 
 **Options**
 
@@ -2084,16 +2084,16 @@ Inlay hints querying consists of two parts: editor (client) and LSP server.
 With the inlay settings above are changed to enable the hints, editor will start to query certain types of hints and react on LSP hint refresh request from the server.
 At this point, the server may or may not return hints depending on its implementation, further configuration might be needed, refer to the corresponding LSP server documentation.
 
-The following languages have inlay hints preconfigured by Zed:
+The following languages have inlay hints preconfigured by CodeOrbit:
 
-- [Go](https://docs.zed.dev/languages/go)
-- [Rust](https://docs.zed.dev/languages/rust)
-- [Svelte](https://docs.zed.dev/languages/svelte)
-- [Typescript](https://docs.zed.dev/languages/typescript)
+- [Go](https://docs.CodeOrbit.dev/languages/go)
+- [Rust](https://docs.CodeOrbit.dev/languages/rust)
+- [Svelte](https://docs.CodeOrbit.dev/languages/svelte)
+- [Typescript](https://docs.CodeOrbit.dev/languages/typescript)
 
 Use the `lsp` section for the server configuration. Examples are provided in the corresponding language documentation.
 
-Hints are not instantly queried in Zed, two kinds of debounces are used, either may be set to 0 to be disabled.
+Hints are not instantly queried in CodeOrbit, two kinds of debounces are used, either may be set to 0 to be disabled.
 Settings-related hint updates are not debounced.
 
 All possible config values for `toggle_on_modifiers_press` are:
@@ -2202,7 +2202,7 @@ These values take in the same options as the root-level settings with the same n
 
 ## Network Proxy
 
-- Description: Configure a network proxy for Zed.
+- Description: Configure a network proxy for CodeOrbit.
 - Setting: `proxy`
 - Default: `null`
 
@@ -2221,7 +2221,7 @@ The following URI schemes are supported:
 
 `http` will be used when no scheme is specified.
 
-By default no proxy will be used, or Zed will attempt to retrieve proxy settings from environment variables, such as `http_proxy`, `HTTP_PROXY`, `https_proxy`, `HTTPS_PROXY`, `all_proxy`, `ALL_PROXY`, `no_proxy` and `NO_PROXY`.
+By default no proxy will be used, or CodeOrbit will attempt to retrieve proxy settings from environment variables, such as `http_proxy`, `HTTP_PROXY`, `https_proxy`, `HTTPS_PROXY`, `all_proxy`, `ALL_PROXY`, `no_proxy` and `NO_PROXY`.
 
 For example, to set an `http` proxy, add the following to your settings:
 
@@ -2528,7 +2528,7 @@ List of `integer` column numbers
 
 ## Telemetry
 
-- Description: Control what info is collected by Zed.
+- Description: Control what info is collected by CodeOrbit.
 - Setting: `telemetry`
 - Default:
 
@@ -2553,7 +2553,7 @@ List of `integer` column numbers
 
 ### Metrics
 
-- Description: Setting for sending anonymized usage data, such what languages you're using Zed with.
+- Description: Setting for sending anonymiCodeOrbit usage data, such what languages you're using CodeOrbit with.
 - Setting: `metrics`
 - Default: `true`
 
@@ -2778,7 +2778,7 @@ List of `integer` column numbers
 {
   "terminal": {
     "env": {
-      "ZED": "1",
+      "CodeOrbit": "1",
       "KEY": "value1:value2"
     }
   }
@@ -3068,7 +3068,7 @@ Example command to set the title: `echo -e "\e]2;New Title\007";`
   "terminal": {
     "working_directory": {
       "always": {
-        "directory": "~/zed/projects/"
+        "directory": "~/CodeOrbit/projects/"
       }
     }
   }
@@ -3077,7 +3077,7 @@ Example command to set the title: `echo -e "\e]2;New Title\007";`
 
 ## Theme
 
-- Description: The theme setting can be specified in two forms - either as the name of a theme or as an object containing the `mode`, `dark`, and `light` themes for the Zed UI.
+- Description: The theme setting can be specified in two forms - either as the name of a theme or as an object containing the `mode`, `dark`, and `light` themes for the CodeOrbit UI.
 - Setting: `theme`
 - Default: `One Dark`
 
@@ -3129,7 +3129,7 @@ Example command to set the title: `echo -e "\e]2;New Title\007";`
 
 ### Dark
 
-- Description: The name of the dark Zed theme to use for the UI.
+- Description: The name of the CodeOrbit theme to use.
 - Setting: `dark`
 - Default: `One Dark`
 
@@ -3139,7 +3139,7 @@ Run the `theme selector: toggle` action in the command palette to see a current 
 
 ### Light
 
-- Description: The name of the light Zed theme to use for the UI.
+- Description: The name of the light CodeOrbit theme to use for the UI.
 - Setting: `light`
 - Default: `One Light`
 
@@ -3404,7 +3404,7 @@ Run the `theme selector: toggle` action in the command palette to see a current 
   "default_height": 320,
   "default_view": "thread",
   "default_model": {
-    "provider": "zed.dev",
+    "provider": "CodeOrbit.dev",
     "model": "claude-sonnet-4"
   },
   "single_file_review": true,
@@ -3477,7 +3477,7 @@ Float values between `0.0` and `0.9`, where:
 
 - Description: The name of the font to use for text in the UI.
 - Setting: `ui_font_family`
-- Default: `Zed Plex Sans`
+- Default: `CodeOrbit Plex Sans`
 
 **Options**
 
@@ -3499,7 +3499,7 @@ The name of any font family installed on the system.
 
 **Options**
 
-Zed supports all OpenType features that can be enabled or disabled for a given UI font, as well as setting values for font features.
+CodeOrbit supports all OpenType features that can be enabled or disabled for a given UI font, as well as setting values for font features.
 
 For example, to disable font ligatures, add the following to your settings:
 
@@ -3561,7 +3561,7 @@ For example, to use `Nerd Font` as a fallback, add the following to your setting
 ## An example configuration:
 
 ```json
-// ~/.config/zed/settings.json
+// ~/.config/CodeOrbit/settings.json
 {
   "theme": "cave-light",
   "tab_size": 2,
@@ -3569,7 +3569,7 @@ For example, to use `Nerd Font` as a fallback, add the following to your setting
   "soft_wrap": "none",
 
   "buffer_font_size": 18,
-  "buffer_font_family": "Zed Plex Mono",
+  "buffer_font_family": "CodeOrbit Plex Mono",
 
   "autosave": "on_focus_change",
   "format_on_save": "off",

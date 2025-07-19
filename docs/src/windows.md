@@ -1,12 +1,12 @@
-# Zed on Windows
+# CodeOrbit on Windows
 
-Zed is not supported on Windows (yet). We have limited developer bandwidth, and a
+CodeOrbit is not supported on Windows (yet). We have limited developer bandwidth, and a
 new platform is a large undertaking. However, the community has developed
-a build of Zed on Windows, and you can compile it yourself with these instructions:
+a build of CodeOrbit on Windows, and you can compile it yourself with these instructions:
 
 - [Building for Windows](./development/windows.md)
 
 For now, we welcome contributions from the community to improve Windows support.
 
-- [GitHub Issues with 'Windows' label](https://github.com/zed-industries/zed/issues?q=is%3Aissue+is%3Aopen+label%3Awindows)
-- [Zed Community Discord](https://zed.dev/community-links) -> `#windows`
+- [GitHub Issues with 'Windows' label](https://github.com/codeorbit-industries/CodeOrbit/issues?q=is%3Aissue+is%3Aopen+label%3Awindows)
+- [CodeOrbit Community Discord](https://CodeOrbit.dev/community-links) -> `#windows`

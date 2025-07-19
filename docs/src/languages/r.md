@@ -1,13 +1,13 @@
 # R
 
-R support is available via multiple R Zed extensions:
+R support is available via multiple R CodeOrbit extensions:
 
-- [ocsmit/zed-r](https://github.com/ocsmit/zed-r)
+- [ocsmit/CodeOrbit-r](https://github.com/ocsmit/CodeOrbit-r)
 
   - Tree-sitter: [r-lib/tree-sitter-r](https://github.com/r-lib/tree-sitter-r)
   - Language-Server: [REditorSupport/languageserver](https://github.com/REditorSupport/languageserver)
 
-- [posit-dev/air](https://github.com/posit-dev/air/tree/main/editors/zed)
+- [posit-dev/air](https://github.com/posit-dev/air/tree/main/editors/CodeOrbit)
   - Language-Server: [posit-dev/air](https://github.com/posit-dev/air)
 
 ## Installation
@@ -20,7 +20,7 @@ install.packages("languageserver")
 install.packages("lintr")
 ```
 
-3. Install the [ocsmit/zed-r](https://github.com/ocsmit/zed-r) through Zed's extensions manager.
+3. Install the [ocsmit/CodeOrbit-r](https://github.com/ocsmit/CodeOrbit-r) through CodeOrbit's extensions manager.
 
 For example on macOS:
 
@@ -68,7 +68,7 @@ TBD: Get this working
 
 ### REditorSupport/languageserver Configuration
 
-You can configure the [R languageserver settings](https://github.com/REditorSupport/languageserver#settings) via Zed Project Settings `.zed/settings.json` or Zed User Settings `~/.config/zed/settings.json`:
+You can configure the [R languageserver settings](https://github.com/REditorSupport/languageserver#settings) via CodeOrbit Project Settings `.CodeOrbit/settings.json` or CodeOrbit User Settings `~/.config/CodeOrbit/settings.json`:
 
 For example to disable Lintr linting and suppress code snippet suggestions (both enabled by default):
 
@@ -98,7 +98,7 @@ TBD: R REPL Docs
 
 ### Ark Installation
 
-To use the Zed REPL with R you need to install [Ark](https://github.com/posit-dev/ark), an R Kernel for Jupyter applications.
+To use the CodeOrbit REPL with R you need to install [Ark](https://github.com/posit-dev/ark), an R Kernel for Jupyter applications.
 You can down the latest version from the [Ark GitHub Releases](https://github.com/posit-dev/ark/releases) and then extract the `ark` binary to a directory in your `PATH`.
 
 For example to install the latest non-debug build:

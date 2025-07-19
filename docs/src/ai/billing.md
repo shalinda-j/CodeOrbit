@@ -1,22 +1,22 @@
 # Billing
 
 We use Stripe as our billing and payments provider. All Pro plans require payment via credit card.
-For invoice-based billing, a Business plan is required. Contact sales@zed.dev for more information.
+For invoice-based billing, a Business plan is required. Contact sales@codeorbit.dev for more information.
 
 ## Settings {#settings}
 
-You can access billing settings at [zed.dev/account](https://zed.dev/account).
+You can access billing settings at [codeorbit.dev/account](https://codeorbit.dev/account).
 Clicking the button under Account Settings will navigate you to Stripe’s secure portal, where you can update all billing-related settings and configuration.
 
 ## Billing Cycles {#billing-cycles}
 
-Zed is billed on a monthly basis based on the date you initially subscribe.
+CodeOrbit is billed on a monthly basis based on the date you initially subscribe.
 
 We’ll also bill in-month for additional prompts used beyond your plan’s prompt limit, if usage exceeds $20 before month end. See [usage-based pricing](./plans-and-usage.md#ubp) for more.
 
 ## Invoice History {#invoice-history}
 
-You can access your invoice history by navigating to [zed.dev/account](https://zed.dev/account) and clicking "Manage" on your subscription.
+You can access your invoice history by navigating to [codeorbit.dev/account](https://codeorbit.dev/account) and clicking "Manage" on your subscription.
 
 From Stripe’s secure portal, you can download all current and historical invoices.
 

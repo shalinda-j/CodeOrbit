@@ -1,6 +1,6 @@
 # JavaScript
 
-JavaScript support is available natively in Zed.
+JavaScript support is available natively in CodeOrbit.
 
 - Tree-sitter: [tree-sitter/tree-sitter-javascript](https://github.com/tree-sitter/tree-sitter-javascript)
 - Language Server: [typescript-language-server/typescript-language-server](https://github.com/typescript-language-server/typescript-language-server)
@@ -11,7 +11,7 @@ JavaScript support is available natively in Zed.
 Formatting on save is enabled by default for JavaScript, using TypeScript's built-in code formatting.
 But many JavaScript projects use other command-line code-formatting tools, such as [Prettier](https://prettier.io/).
 You can use one of these tools by specifying an _external_ code formatter for JavaScript in your settings.
-See [the configuration docs](../configuring-zed.md) for more information.
+See [the configuration docs](../configuring-CodeOrbit.md) for more information.
 
 For example, if you have Prettier installed and on your `PATH`, you can use it to format JavaScript files by adding the following to your `settings.json`:
 
@@ -32,18 +32,18 @@ For example, if you have Prettier installed and on your `PATH`, you can use it t
 
 ## JSX
 
-Zed supports JSX syntax highlighting out of the box.
+CodeOrbit supports JSX syntax highlighting out of the box.
 
 In JSX strings, the [`tailwindcss-language-server`](./tailwindcss.md) is used provide autocompletion for Tailwind CSS classes.
 
 ## JSDoc
 
-Zed supports JSDoc syntax in JavaScript and TypeScript comments that match the JSDoc syntax.
-Zed uses [tree-sitter/tree-sitter-jsdoc](https://github.com/tree-sitter/tree-sitter-jsdoc) for parsing and highlighting JSDoc.
+CodeOrbit supports JSDoc syntax in JavaScript and TypeScript comments that match the JSDoc syntax.
+CodeOrbit uses [tree-sitter/tree-sitter-jsdoc](https://github.com/tree-sitter/tree-sitter-jsdoc) for parsing and highlighting JSDoc.
 
 ## ESLint
 
-You can configure Zed to format code using `eslint --fix` by running the ESLint code action when formatting:
+You can configure CodeOrbit to format code using `eslint --fix` by running the ESLint code action when formatting:
 
 ```json
 {
@@ -177,7 +177,7 @@ You can configure ESLint's `workingDirectory` setting:
 
 ## Debugging
 
-Zed supports debugging JavaScript code out of the box.
+CodeOrbit supports debugging JavaScript code out of the box.
 The following can be debugged without writing additional configuration:
 
 - Tasks from `package.json`
@@ -185,9 +185,9 @@ The following can be debugged without writing additional configuration:
 
 Run {#action debugger::Start} ({#kb debugger::Start}) to see a contextual list of these predefined debug tasks.
 
-As for all languages, configurations from `.vscode/launch.json` are also available for debugging in Zed.
+As for all languages, configurations from `.vscode/launch.json` are also available for debugging in CodeOrbit.
 
-If your use-case isn't covered by any of these, you can take full control by adding debug configurations to `.zed/debug.json`. See below for example configurations.
+If your use-case isn't covered by any of these, you can take full control by adding debug configurations to `.CodeOrbit/debug.json`. See below for example configurations.
 
 ### Debug the current file
 
@@ -198,7 +198,7 @@ If your use-case isn't covered by any of these, you can take full control by add
     "label": "Debug JS file",
     "type": "node",
     "request": "launch",
-    "program": "$ZED_FILE",
+    "program": "$CODEORBIT_FILE",
     "skipFiles": ["<node_internals>/**"]
   }
 ]
@@ -215,8 +215,8 @@ This implicitly runs the current file using `node`.
     "label": "Debug app in Chrome",
     "type": "chrome",
     "request": "launch",
-    "file": "$ZED_WORKTREE_ROOT/index.html",
-    "webRoot": "$ZED_WORKTREE_ROOT",
+    "file": "$CODEORBIT_WORKTREE_ROOT/index.html",
+    "webRoot": "$CODEORBIT_WORKTREE_ROOT",
     "console": "integratedTerminal",
     "skipFiles": ["<node_internals>/**"]
   }

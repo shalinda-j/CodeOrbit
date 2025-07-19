@@ -1,10 +1,10 @@
 # Key bindings
 
-Zed has a very customizable key binding system — you can tweak everything to work exactly how your fingers expect!
+CodeOrbit has a very customizable key binding system — you can tweak everything to work exactly how your fingers expect!
 
 ## Predefined keymaps
 
-If you're used to a specific editor's defaults you can set a `base_keymap` in your [settings file](./configuring-zed.md). We currently have:
+If you're used to a specific editor's defaults you can set a `base_keymap` in your [settings file](./configuring-CodeOrbit.md). We currently have:
 
 - VSCode (default)
 - Atom
@@ -18,7 +18,7 @@ You can also enable `vim_mode`, which adds vim bindings too.
 
 ## User keymaps
 
-Zed reads your keymap from `~/.config/zed/keymap.json`. You can open the file within Zed with {#kb zed::OpenKeymap}, or via `zed: Open Keymap` in the command palette.
+CodeOrbit reads your keymap from `~/.config/CodeOrbit/keymap.json`. You can open the file within CodeOrbit with {#kb CodeOrbit::OpenKeymap}, or via `CodeOrbit: Open Keymap` in the command palette.
 
 The file contains a JSON array of objects with `"bindings"`. If no `"context"` is set the bindings are always active. If it is set the binding is only active when the [context matches](#contexts).
 
@@ -45,13 +45,13 @@ For example:
 ]
 ```
 
-You can see all of Zed's default bindings in the default keymaps for [MacOS](https://github.com/zed-industries/zed/blob/main/assets/keymaps/default-macos.json) or [Linux](https://github.com/zed-industries/zed/blob/main/assets/keymaps/default-linux.json).
+You can see all of CodeOrbit's default bindings in the default keymaps for [MacOS](https://github.com/codeorbit-industries/CodeOrbit/blob/main/assets/keymaps/default-macos.json) or [Linux](https://github.com/codeorbit-industries/CodeOrbit/blob/main/assets/keymaps/default-linux.json).
 
-If you want to debug problems with custom keymaps you can use `dev: Open Key Context View` from the command palette. Please file [an issue](https://github.com/zed-industries/zed) if you run into something you think should work but isn't.
+If you want to debug problems with custom keymaps you can use `dev: Open Key Context View` from the command palette. Please file [an issue](https://github.com/codeorbit-industries/CodeOrbit) if you run into something you think should work but isn't.
 
 ### Keybinding syntax
 
-Zed has the ability to match against not just a single keypress, but a sequence of keys typed in order. Each key in the `"bindings"` map is a sequence of keypresses separated with a space.
+CodeOrbit has the ability to match against not just a single keypress, but a sequence of keys typed in order. Each key in the `"bindings"` map is a sequence of keypresses separated with a space.
 
 Each keypress is a sequence of modifiers followed by a key. The modifiers are:
 
@@ -60,7 +60,7 @@ Each keypress is a sequence of modifiers followed by a key. The modifiers are:
 - `alt-` for alt (option on macOS)
 - `shift-` The shift key
 - `fn-` The function key
-- `secondary-` Equivalent to `cmd` when Zed is running on macOS and `ctrl` when on Windows and Linux
+- `secondary-` Equivalent to `cmd` when CodeOrbit is running on macOS and `ctrl` when on Windows and Linux
 
 The keys can be any single unicode codepoint that your keyboard generates (for example `a`, `0`, `£` or `ç`), or any named key (`tab`, `f1`, `shift`, or `cmd`). If you are using a non-Latin layout (e.g. Cyrillic), you can bind either to the cyrillic character, or the latin character that key generates with `cmd` pressed.
 
@@ -68,7 +68,7 @@ A few examples:
 
 ```json
  "bindings": {
-   "cmd-k cmd-s": "zed::OpenKeymap", // matches ⌘-k then ⌘-s
+   "cmd-k cmd-s": "CodeOrbit::OpenKeymap", // matches ⌘-k then ⌘-s
    "space e": "editor::Complete", // type space then e
    "ç": "editor::Complete", // matches ⌥-c
    "shift shift": "file_finder::Toggle", // matches pressing and releasing shift twice
@@ -77,15 +77,15 @@ A few examples:
 
 The `shift-` modifier can only be used in combination with a letter to indicate the uppercase version. For example `shift-g` matches typing `G`. Although on many keyboards shift is used to type punctuation characters like `(`, the keypress is not considered to be modified and so `shift-(` does not match.
 
-The `alt-` modifier can be used on many layouts to generate a different key. For example on macOS US keyboard the combination `alt-c` types `ç`. You can match against either in your keymap file, though by convention Zed spells this combination as `alt-c`.
+The `alt-` modifier can be used on many layouts to generate a different key. For example on macOS US keyboard the combination `alt-c` types `ç`. You can match against either in your keymap file, though by convention CodeOrbit spells this combination as `alt-c`.
 
 It is possible to match against typing a modifier key on its own. For example `shift shift` can be used to implement JetBrains search everywhere shortcut. In this case the binding happens on key release instead of keypress.
 
 ### Contexts
 
-If a binding group has a `"context"` key it will be matched against the currently active contexts in Zed.
+If a binding group has a `"context"` key it will be matched against the currently active contexts in CodeOrbit.
 
-Zed's contexts make up a tree, with the root being `Workspace`. Workspaces contain Panes and Panels, and Panes contain Editors, etc. The easiest way to see what contexts are active at a given moment is the key context view, which you can get to with `dev: Open Key Context View` in the command palette.
+CodeOrbit's contexts make up a tree, with the root being `Workspace`. Workspaces contain Panes and Panels, and Panes contain Editors, etc. The easiest way to see what contexts are active at a given moment is the key context view, which you can get to with `dev: Open Key Context View` in the command palette.
 
 For example:
 
@@ -117,18 +117,18 @@ For example:
 
 It's worth noting that attributes are only available on the node they are defined on. This means that if you want to (for example) only enable a keybinding when the debugger is stopped in vim normal mode, you need to do `debugger_stopped > vim_mode == normal`.
 
-Note: Before Zed v0.197.x, the ! operator only looked at one node at a time, and `>` meant "parent" not "ancestor". This meant that `!Editor` would match the context `Workspace > Pane > Editor`, because (confusingly) the Pane matches `!Editor`, and that `os=macos > Editor` did not match the context `Workspace > Pane > Editor` because of the intermediate `Pane` node.
+Note: Before CodeOrbit v0.197.x, the ! operator only looked at one node at a time, and `>` meant "parent" not "ancestor". This meant that `!Editor` would match the context `Workspace > Pane > Editor`, because (confusingly) the Pane matches `!Editor`, and that `os=macos > Editor` did not match the context `Workspace > Pane > Editor` because of the intermediate `Pane` node.
 
 If you're using Vim mode, we have information on how [vim modes influence the context](./vim.md#contexts)
 
 ### Actions
 
-Pretty much all of Zed's functionality is exposed as actions. Although there is
+Pretty much all of CodeOrbit's functionality is exposed as actions. Although there is
 no explicitly documented list, you can find most of them by searching in the
 command palette, by looking in the default keymaps for
-[MacOS](https://github.com/zed-industries/zed/blob/main/assets/keymaps/default-macos.json)
+[MacOS](https://github.com/codeorbit-industries/CodeOrbit/blob/main/assets/keymaps/default-macos.json)
 or
-[Linux](https://github.com/zed-industries/zed/blob/main/assets/keymaps/default-linux.json), or by using Zed's autocomplete in your keymap file.
+[Linux](https://github.com/codeorbit-industries/CodeOrbit/blob/main/assets/keymaps/default-linux.json), or by using CodeOrbit's autocomplete in your keymap file.
 
 Most actions do not require any arguments, and so you can bind them as strings: `"ctrl-a": "language_selector::Toggle"`. Some require a single argument, and must be bound as an array: `"cmd-1": ["workspace::ActivatePane", 0]`. Some actions require multiple arguments, and are bound as an array of a string and an object: `"ctrl-a": ["pane::DeploySearch", { "replace_enabled": true }]`.
 
@@ -141,11 +141,11 @@ When multiple keybindings have the same keystroke and are active at the same tim
 
 The other kind of conflict that arises is when you have two bindings, one of which is a prefix of the other. For example if you have `"ctrl-w":"editor::DeleteToNextWordEnd"` and `"ctrl-w left":"editor::DeleteToEndOfLine"`.
 
-When this happens, and both bindings are active in the current context, Zed will wait for 1 second after you type `ctrl-w` to see if you're about to type `left`. If you don't type anything, or if you type a different key, then `DeleteToNextWordEnd` will be triggered. If you do, then `DeleteToEndOfLine` will be triggered.
+When this happens, and both bindings are active in the current context, CodeOrbit will wait for 1 second after you type `ctrl-w` to see if you're about to type `left`. If you don't type anything, or if you type a different key, then `DeleteToNextWordEnd` will be triggered. If you do, then `DeleteToEndOfLine` will be triggered.
 
 ### Non-QWERTY keyboards
 
-Zed's support for non-QWERTY keyboards is still a work in progress.
+CodeOrbit's support for non-QWERTY keyboards is still a work in progress.
 
 If your keyboard can type the full ASCII ranges (DVORAK, COLEMAK, etc.) then shortcuts should work as you expect.
 
@@ -153,7 +153,7 @@ Otherwise, read on...
 
 #### macOS
 
-On Cyrillic, Hebrew, Armenian, and other keyboards that are mostly non-ASCII; macOS automatically maps keys to the ASCII range when `cmd` is held. Zed takes this a step further and it can always match key-presses against either the ASCII layout, or the real layout regardless of modifiers, and regardless of the `use_key_equivalents` setting. For example in Thai, pressing `ctrl-ๆ` will match bindings associated with `ctrl-q` or `ctrl-ๆ`
+On Cyrillic, Hebrew, Armenian, and other keyboards that are mostly non-ASCII; macOS automatically maps keys to the ASCII range when `cmd` is held. CodeOrbit takes this a step further and it can always match key-presses against either the ASCII layout, or the real layout regardless of modifiers, and regardless of the `use_key_equivalents` setting. For example in Thai, pressing `ctrl-ๆ` will match bindings associated with `ctrl-q` or `ctrl-ๆ`
 
 On keyboards that support extended Latin alphabets (French AZERTY, German QWERTZ, etc.) it is often not possible to type the entire ASCII range without `option`. This introduces an ambiguity, `option-2` produces `@`. To ensure that all the builtin keyboard shortcuts can still be typed on these keyboards we move key-bindings around. For example, shortcuts bound to `@` on QWERTY are moved to `"` on a Spanish layout. This mapping is based on the macOS system defaults and can be seen by running `dev: Open Key Context View` from the command palette.
 
@@ -198,7 +198,7 @@ the sequence, or if you want to disable multikey bindings starting with that key
 
 A `null` binding follows the same precedence rules as normal actions. So disables all bindings that would match further up in the tree too. If you'd like a binding that matches further up in the tree to take precedence over a lower binding, you need to rebind it to the action you want in the context you want.
 
-This is useful for preventing Zed from falling back to a default keybinding when the action you specified is conditional and propagates. For example, `buffer_search::DeployReplace` only triggers when the search bar is not in view. If the search bar is in view, it would propagate and trigger the default action set for that binding, such as opening the right dock. To prevent this from happening:
+This is useful for preventing CodeOrbit from falling back to a default keybinding when the action you specified is conditional and propagates. For example, `buffer_search::DeployReplace` only triggers when the search bar is not in view. If the search bar is in view, it would propagate and trigger the default action set for that binding, such as opening the right dock. To prevent this from happening:
 
 ```json
 [
@@ -248,15 +248,15 @@ There are some limitations to this, notably:
 - Other examples of asynchronous things are: opening the command palette, communicating with a language server, changing the language of a buffer, anything that hits the network.
 - There is a limit of 100 simulated keys at a time.
 
-The argument to `SendKeystrokes` is a space-separated list of keystrokes (using the same syntax as above). Due to the way that keystrokes are parsed, any segment that is not recognized as a keypress will be sent verbatim to the currently focused input field.
+The argument to `SendKeystrokes` is a space-separated list of keystrokes (using the same syntax as above). Due to the way that keystrokes are parsed, any segment that is not recogniCodeOrbit as a keypress will be sent verbatim to the currently focused input field.
 
 If the argument to `SendKeystrokes` contains the binding used to trigger it, it will use the next-highest-precedence definition of that binding. This allows you to extend the default behavior of a key binding.
 
 ### Forward keys to terminal
 
-If you're on Linux or Windows, you might find yourself wanting to forward key combinations to the built-in terminal instead of them being handled by Zed.
+If you're on Linux or Windows, you might find yourself wanting to forward key combinations to the built-in terminal instead of them being handled by CodeOrbit.
 
-For example, `ctrl-n` creates a new tab in Zed on Linux. If you want to send `ctrl-n` to the built-in terminal when it's focused, add the following to your keymap:
+For example, `ctrl-n` creates a new tab in CodeOrbit on Linux. If you want to send `ctrl-n` to the built-in terminal when it's focused, add the following to your keymap:
 
 ```json
 {
@@ -269,5 +269,5 @@ For example, `ctrl-n` creates a new tab in Zed on Linux. If you want to send `ct
 
 ### Task Key bindings
 
-You can also bind keys to launch Zed Tasks defined in your tasks.json.
+You can also bind keys to launch CodeOrbit Tasks defined in your tasks.json.
 See the [tasks documentation](tasks.md#custom-keybindings-for-tasks) for more.
