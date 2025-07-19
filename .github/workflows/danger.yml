@@ -11,7 +11,7 @@ on:
 
 jobs:
   danger:
-    if: github.repository_owner == 'zed-industries'
+    if: github.repository_owner == 'codeorbit-industries'
     runs-on: ubuntu-latest
 
     steps:

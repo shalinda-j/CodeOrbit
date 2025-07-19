@@ -12,7 +12,7 @@ env:
   CARGO_TERM_COLOR: always
   CARGO_INCREMENTAL: 0
   RUST_BACKTRACE: 1
-  ZED_CLIENT_CHECKSUM_SEED: ${{ secrets.ZED_CLIENT_CHECKSUM_SEED }}
+  CODEORBIT_CLIENT_CHECKSUM_SEED: ${{ secrets.CODEORBIT_CLIENT_CHECKSUM_SEED }}
   DIGITALOCEAN_SPACES_ACCESS_KEY: ${{ secrets.DIGITALOCEAN_SPACES_ACCESS_KEY }}
   DIGITALOCEAN_SPACES_SECRET_KEY: ${{ secrets.DIGITALOCEAN_SPACES_SECRET_KEY }}
 
@@ -20,7 +20,7 @@ jobs:
   style:
     timeout-minutes: 60
     name: Check formatting and Clippy lints
-    if: github.repository_owner == 'zed-industries'
+    if: github.repository_owner == 'codeorbit-industries'
     runs-on:
       - self-hosted
       - macOS
@@ -40,7 +40,7 @@ jobs:
   tests:
     timeout-minutes: 60
     name: Run tests
-    if: github.repository_owner == 'zed-industries'
+    if: github.repository_owner == 'codeorbit-industries'
     runs-on:
       - self-hosted
       - macOS
@@ -57,7 +57,7 @@ jobs:
   windows-tests:
     timeout-minutes: 60
     name: Run tests on Windows
-    if: github.repository_owner == 'zed-industries'
+    if: github.repository_owner == 'codeorbit-industries'
     runs-on: [self-hosted, Windows, X64]
     steps:
       - name: Checkout repo
@@ -74,7 +74,7 @@ jobs:
         uses: ./.github/actions/run_tests_windows
 
       - name: Limit target directory size
-        run: ./script/clear-target-dir-if-larger-than.ps1 1024
+        run: ./script/clear-target-dir-if-larger-than 1024
 
       - name: Clean CI config file
         if: always()
@@ -83,7 +83,7 @@ jobs:
   bundle-mac:
     timeout-minutes: 60
     name: Create a macOS bundle
-    if: github.repository_owner == 'zed-industries'
+    if: github.repository_owner == 'codeorbit-industries'
     runs-on:
       - self-mini-macos
     needs: tests
@@ -95,7 +95,7 @@ jobs:
       APPLE_NOTARIZATION_ISSUER_ID: ${{ secrets.APPLE_NOTARIZATION_ISSUER_ID }}
     steps:
       - name: Install Node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        uses: actions/setup-node@499333ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: "18"
 
@@ -109,18 +109,18 @@ jobs:
           set -eu
           version=$(git rev-parse --short HEAD)
           echo "Publishing version: ${version} on release channel nightly"
-          echo "nightly" > crates/zed/RELEASE_CHANNEL
+          echo "nightly" > crates/codeorbit/RELEASE_CHANNEL
 
       - name: Create macOS app bundle
         run: script/bundle-mac
 
-      - name: Upload Zed Nightly
+      - name: Upload CodeOrbit Nightly
         run: script/upload-nightly macos
 
   bundle-linux-x86:
     timeout-minutes: 60
     name: Create a Linux *.tar.gz bundle for x86
-    if: github.repository_owner == 'zed-industries'
+    if: github.repository_owner == 'codeorbit-industries'
     runs-on:
       - buildjet-16vcpu-ubuntu-2004
     needs: tests
@@ -144,18 +144,18 @@ jobs:
           set -euo pipefail
           version=$(git rev-parse --short HEAD)
           echo "Publishing version: ${version} on release channel nightly"
-          echo "nightly" > crates/zed/RELEASE_CHANNEL
+          echo "nightly" > crates/codeorbit/RELEASE_CHANNEL
 
       - name: Create Linux .tar.gz bundle
         run: script/bundle-linux
 
-      - name: Upload Zed Nightly
+      - name: Upload CodeOrbit Nightly
         run: script/upload-nightly linux-targz
 
   bundle-linux-arm:
     timeout-minutes: 60
     name: Create a Linux *.tar.gz bundle for ARM
-    if: github.repository_owner == 'zed-industries'
+    if: github.repository_owner == 'codeorbit-industries'
     runs-on:
       - buildjet-16vcpu-ubuntu-2204-arm
     needs: tests
@@ -176,20 +176,20 @@ jobs:
           set -euo pipefail
           version=$(git rev-parse --short HEAD)
           echo "Publishing version: ${version} on release channel nightly"
-          echo "nightly" > crates/zed/RELEASE_CHANNEL
+          echo "nightly" > crates/codeorbit/RELEASE_CHANNEL
 
       - name: Create Linux .tar.gz bundle
         run: script/bundle-linux
 
-      - name: Upload Zed Nightly
+      - name: Upload CodeOrbit Nightly
         run: script/upload-nightly linux-targz
 
   freebsd:
     timeout-minutes: 60
-    if: false && github.repository_owner == 'zed-industries'
+    if: false && github.repository_owner == 'codeorbit-industries'
     runs-on: github-8vcpu-ubuntu-2404
     needs: tests
-    name: Build Zed on FreeBSD
+    name: Build CodeOrbit on FreeBSD
     # env:
     #   MYTOKEN : ${{ secrets.MYTOKEN }}
     #   MYTOKEN2: "value2"
@@ -213,16 +213,16 @@ jobs:
             sysctl hw.ncpu
             sysctl hw.physmem
             sysctl hw.usermem
-            git config --global --add safe.directory /home/runner/work/zed/zed
+            git config --global --add safe.directory /home/runner/work/codeorbit/codeorbit
             rustup-init --profile minimal --default-toolchain none -y
             . "$HOME/.cargo/env"
             ./script/bundle-freebsd
             mkdir -p out/
-            mv "target/zed-remote-server-freebsd-x86_64.gz" out/
+            mv "target/codeorbit-remote-server-freebsd-x86_64.gz" out/
             rm -rf target/
             cargo clean
 
-      - name: Upload Zed Nightly
+      - name: Upload CodeOrbit Nightly
         run: script/upload-nightly freebsd
 
   bundle-nix:
@@ -235,7 +235,7 @@ jobs:
   bundle-windows-x64:
     timeout-minutes: 60
     name: Create a Windows installer
-    if: github.repository_owner == 'zed-industries'
+    if: github.repository_owner == 'codeorbit-industries'
     runs-on: [self-hosted, Windows, X64]
     needs: windows-tests
     env:
@@ -255,24 +255,24 @@ jobs:
           clean: false
 
       - name: Set release channel to nightly
-        working-directory: ${{ env.ZED_WORKSPACE }}
+        working-directory: ${{ env.CODEORBIT_WORKSPACE }}
         run: |
           $ErrorActionPreference = "Stop"
           $version = git rev-parse --short HEAD
           Write-Host "Publishing version: $version on release channel nightly"
-          "nightly" | Set-Content -Path "crates/zed/RELEASE_CHANNEL"
+          "nightly" | Set-Content -Path "crates/codeorbit/RELEASE_CHANNEL"
 
-      - name: Build Zed installer
-        working-directory: ${{ env.ZED_WORKSPACE }}
+      - name: Build CodeOrbit installer
+        working-directory: ${{ env.CODEORBIT_WORKSPACE }}
         run: script/bundle-windows.ps1
 
-      - name: Upload Zed Nightly
-        working-directory: ${{ env.ZED_WORKSPACE }}
+      - name: Upload CodeOrbit Nightly
+        working-directory: ${{ env.CODEORBIT_WORKSPACE }}
         run: script/upload-nightly.ps1 windows
 
   update-nightly-tag:
     name: Update nightly tag
-    if: github.repository_owner == 'zed-industries'
+    if: github.repository_owner == 'codeorbit-industries'
     runs-on: ubuntu-latest
     needs:
       - bundle-mac

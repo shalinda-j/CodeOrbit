@@ -19,7 +19,7 @@ env:
 
 jobs:
   unit_evals:
-    if: github.repository_owner == 'zed-industries'
+    if: github.repository_owner == 'codeorbit-industries'
     timeout-minutes: 60
     name: Run unit evals
     runs-on:
@@ -75,7 +75,7 @@ jobs:
           token: ${{ secrets.SLACK_APP_ZED_UNIT_EVALS_BOT_TOKEN }}
           payload: |
             channel: C04UDRNNJFQ
-            text: "Unit Evals Failed: https://github.com/zed-industries/zed/actions/runs/${{ github.run_id }}"
+            text: "Unit Evals Failed: https://github.com/codeorbit-industries/codeorbit/actions/runs/${{ github.run_id }}"
 
       # Even the Linux runner is not stateful, in theory there is no need to do this cleanup.
       # But, to avoid potential issues in the future if we choose to use a stateful Linux runner and forget to add code
